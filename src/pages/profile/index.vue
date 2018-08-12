@@ -52,7 +52,6 @@
         </view>
     </div>
 </template>
-
 <script>
     import {mapState, mapMutations} from 'vuex'
     import {PROFILE_INFO} from "../../store/mutations-type";
@@ -76,9 +75,7 @@
                 getProfileInfo: PROFILE_INFO
             }),
         },
-
         mounted() {
-
             this.getProfileInfo(1)
         }
     }
@@ -135,5 +132,4 @@
             width:50rpx;
         }
     }
-
 </style>

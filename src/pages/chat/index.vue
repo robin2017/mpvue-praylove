@@ -1,79 +1,74 @@
 <template>
-  <div class="md-profile">
-    <!-- <view class="md-profile__header">
-      <text class="md-profile__title">{{ title }}</text>
-    </view> -->
-    <button open-type="getUserInfo">授权访问</button>
-    <view class="md-profile__user" @click="getUserInfo">
-      <image class="md-profile__user-avatar" :src="userInfo.avatarUrl" mode="aspectFit"/>
-      <text class="md-profile__user-nickname">{{ userInfo.nickName }}</text>
-      <text :hidden="!userInfo.city">{{ userInfo.city }}, {{ userInfo.province }}</text>
-      <text :hidden="!userInfo.city"> Thanks~ </text>
+  <div class="rb-chat">
+    <view v-for="chat in chatList">
+
+      <navigator url="../chat-detail/chat-detail">
+        <view class="rb-chat__bar">
+          <view class="rb-chat__img-wrap">
+            <image :src="chat.imgUrl" class="rb-chat__img"></image>
+          </view>
+          <view class="rb-chat__content-wrap">
+            <view class="rb-chat__content-top">
+              <text>{{chat.name}}</text>
+              <text>{{chat.time}}</text>
+            </view>
+            <view>
+              <text>{{chat.content}}</text>
+            </view>
+          </view>
+        </view>
+      </navigator>
     </view>
   </div>
 </template>
 
 <script>
-import { login, getUserInfo } from '@/utils/wechat'
-export default {
+    import {mapState, mapMutations} from 'vuex'
+    import {CHAT_LIST} from "../../store/mutations-type";
+
+    export default {
   data () {
     return {
-      title: '关于',
-      userInfo: {
-        wechat: 'SG',
-        nickName: 'https://github.com/mini-mpvue/mpvue-douban',
-        avatarUrl: '/static/images/qrcode-sg.png'
-      }
+
     }
   },
 
-  methods: {
-    async getUserInfo () {
-      const data = await getUserInfo()
-      this.userInfo = data.userInfo
-    }
-  },
+    computed: {
+        ...mapState('chat', {
+            chatList: state => state.chatList,
+        })
+    },
+    methods: {
+        ...mapMutations('chat', {
+            getChatList: CHAT_LIST
+        }),
+    },
 
   mounted () {
-    login().then(res => {
-      console.log(res)
-    })
+      this.getChatList()
+
   }
 }
 </script>
 
 <style lang="scss">
-@include c('profile') {
-
-  @include e('header') {
-    display: flex;
-    justify-content: center;
-    border-bottom: 1rpx solid #ccc;
+@include c('chat') {
+  padding:0 30rpx;
+@include e('bar'){
+  display:flex;
+}
+  @include e('img-wrap'){
+    margin-right:20rpx;
   }
-
-  @include e('title') {
-    padding: 40rpx;
-    color: #999;
-    font-size: 148rpx;
-    text-align: center;
+  @include e('img'){
+  height:100rpx;width:100rpx;
+}
+  @include e('content-wrap'){
+    flex:1;
   }
-
-  @include e('user') {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  @include e('user-avatar') {
-    width: 100%;
-    height: 620rpx;
-    margin: 40rpx;
-  }
-
-  @include e('user-nickname') {
-    color: #aaa;
-    font-size: 30rpx;
-    margin-bottom: 30rpx;
+  @include e('content-top'){
+    display:flex;
+    justify-content:space-between;
   }
 }
 

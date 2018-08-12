@@ -5,6 +5,7 @@ import item from './modules/item'
 import board from './modules/board'
 import list from './modules/list'
 import profile from './modules/profile'
+import chat from './modules/chat'
 
 Vue.use(Vuex)
 
@@ -25,6 +26,10 @@ const store = new Vuex.Store({
         profile: {
             namespaced: true,
             ...profile
+        },
+        chat: {
+            namespaced: true,
+            ...chat
         }
     }
 })

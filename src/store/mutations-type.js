@@ -10,3 +10,4 @@ export const LIST_CLEAR_STATE = 'LIST_CLEAR_STATE' // 清除电影列表数据
 export const PROFILE_BACKGROUND_IMGURL = 'PROFILE_BACKGROUND_IMGURL';//个人信息中的背景图片URL
 export const PROFILE_INFO = "PROFILE_INFO";//我的信息
 
+export const CHAT_LIST = "CHAT_LIST";//聊天列表

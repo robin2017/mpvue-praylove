@@ -1,11 +1,14 @@
 import Vue from 'vue'
 import App from './index'
-
-const app = new Vue(App)
+import store from '@/store'
+const app = new Vue({
+    store,
+    ...App
+})
 app.$mount()
 
 export default {
-  config: {
-    navigationBarTitleText: '关于我'
-  }
+    config: {
+        navigationBarTitleText: '聊天列表'
+    }
 }
