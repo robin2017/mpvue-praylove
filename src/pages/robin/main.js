@@ -1,14 +1,15 @@
 import Vue from 'vue'
 import App from './index'
 import store from '@/store'
+
 const app = new Vue({
-    store,
-    ...App
+  store,
+  ...App
 })
 app.$mount()
 
 export default {
   config: {
-    navigationBarTitleText: '关于我'
+    navigationBarTitleText: '搜索'
   }
 }

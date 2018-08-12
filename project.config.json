@@ -9,8 +9,8 @@
 	},
 	"miniprogramRoot": "./dist/",
 	"compileType": "miniprogram",
-	"appid": "wxebcb658c980d16d1",
-	"projectname": "mpvue-douban",
+	"appid": "wx45b924dbab6317a9",
+	"projectname": "mpvue-praylove",
 	"condition": {
 		"search": {
 			"current": -1,

@@ -1,80 +1,139 @@
 <template>
-  <div class="md-profile">
-    <!-- <view class="md-profile__header">
-      <text class="md-profile__title">{{ title }}</text>
-    </view> -->
-    <button open-type="getUserInfo">授权访问</button>
-    <view class="md-profile__user" @click="getUserInfo">
-      <image class="md-profile__user-avatar" :src="userInfo.avatarUrl" mode="aspectFit"/>
-      <text class="md-profile__user-nickname">{{ userInfo.nickName }}</text>
-      <text :hidden="!userInfo.city">{{ userInfo.city }}, {{ userInfo.province }}</text>
-      <text :hidden="!userInfo.city"> Thanks~ </text>
-    </view>
-  </div>
+    <div class="rb-profile">
+        <image :src="profileInfo.backgroundImgUrl" class="rb-profile__backgroundimg"></image>
+        <view class="rb-profile__box-wrap">
+            <view class="rb-profile__middle-box">
+                <view>
+                    <image class="rb-profile__box-img" :src="profileInfo.picImgUrl"></image>
+                </view>
+                <view style="padding-top:30rpx">
+                    <view style="margin-bottom:20rpx">{{profileInfo.name}}</view>
+                    <view>真爱值{{profileInfo.loveValue}}</view>
+                </view>
+            </view>
+        </view>
+        <view>
+            <navigator url="..">
+                <view class="rb-profile__bar-info">
+                    <view class="rb-profile__bar-content">
+                        <image :src="personInfoIcon" class="rb-profile__bar-icon"></image>
+                        <text>个人信息</text>
+                    </view>
+                    <image :src="arrowRightIcon" class="rb-profile__arrow-right"></image>
+                </view>
+            </navigator>
+            <navigator url="..">
+                <view class="rb-profile__bar-info">
+                    <view class="rb-profile__bar-content">
+                        <image :src="followingIcon" class="rb-profile__bar-icon"></image>
+                        <text>我关注过谁</text>
+                    </view>
+                    <image :src="arrowRightIcon" class="rb-profile__arrow-right"></image>
+                </view>
+            </navigator>
+            <navigator url="..">
+                <view class="rb-profile__bar-info">
+                    <view class="rb-profile__bar-content">
+                        <image :src="followerIcon" class="rb-profile__bar-icon"></image>
+                        <text>谁关注过我</text>
+                    </view>
+                    <image :src="arrowRightIcon" class="rb-profile__arrow-right"></image>
+                </view>
+            </navigator>
+            <navigator url="..">
+                <view class="rb-profile__bar-info">
+                    <view class="rb-profile__bar-content">
+                        <image :src="aboutIcon" class="rb-profile__bar-icon"></image>
+                        <text>关于我们</text>
+                    </view>
+                    <image :src="arrowRightIcon" class="rb-profile__arrow-right"></image>
+                </view>
+            </navigator>
+        </view>
+    </div>
 </template>
 
 <script>
-import { login, getUserInfo } from '@/utils/wechat'
-export default {
-  data () {
-    return {
-      title: '关于',
-      userInfo: {
-        wechat: 'SG',
-        nickName: 'https://github.com/mini-mpvue/mpvue-douban',
-        avatarUrl: '/static/images/qrcode-sg.png'
-      }
-    }
-  },
+    import {mapState, mapMutations} from 'vuex'
+    import {PROFILE_INFO} from "../../store/mutations-type";
+    export default {
+        data() {
+            return {
+                arrowRightIcon:'../../static/images/pray/arrow-right.png',
+                personInfoIcon:'../../static/images/pray/profile/file.png',
+                followingIcon:'../../static/images/pray/profile/heart.png',
+                followerIcon:'../../static/images/pray/profile/smile.png',
+                aboutIcon:'../../static/images/pray/profile/star.png'
+            }
+        },
+        computed: {
+            ...mapState('profile', {
+                profileInfo: state => state.profileInfo,
+            })
+        },
+        methods: {
+            ...mapMutations('profile', {
+                getProfileInfo: PROFILE_INFO
+            }),
+        },
 
-  methods: {
-    async getUserInfo () {
-      const data = await getUserInfo()
-      this.userInfo = data.userInfo
-    }
-  },
+        mounted() {
 
-  mounted () {
-    login().then(res => {
-      console.log(res)
-    })
-  }
-}
+            this.getProfileInfo(1)
+        }
+    }
 </script>
 
 <style lang="scss">
-@include c('profile') {
+    @include c('profile') {
+        @include e('backgroundimg'){
+            height:450rpx;
+        }
+        @include e('box-wrap'){
+            height:150rpx;
+            width:750rpx;
+            position:relative;
+            border-bottom:4px solid lightgray;
+        }
 
-  @include e('header') {
-    display: flex;
-    justify-content: center;
-    border-bottom: 1rpx solid #ccc;
-  }
-
-  @include e('title') {
-    padding: 40rpx;
-    color: #999;
-    font-size: 148rpx;
-    text-align: center;
-  }
-
-  @include e('user') {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  @include e('user-avatar') {
-    width: 100%;
-    height: 620rpx;
-    margin: 40rpx;
-  }
-
-  @include e('user-nickname') {
-    color: #aaa;
-    font-size: 30rpx;
-    margin-bottom: 30rpx;
-  }
-}
+        @include e('middle-box'){
+            height:200rpx;
+            width:600rpx;
+            position:absolute;
+            border:1px solid gray;
+            top:-100rpx;
+            left:65rpx;
+            background-color:white;
+            border-radius:10px;
+            display:flex
+        }
+        @include e('box-img'){
+            height:160rpx;
+            width:160rpx;
+            border-radius:10rpx;
+            margin:20rpx;
+        }
+        @include e('bar-info'){
+            border-bottom:1px solid gray;
+            height:100rpx;
+            display:flex;
+            align-items:center;
+            padding:0 20rpx;
+            justify-content: space-between;
+        }
+        @include e('bar-content'){
+            display:flex;
+            align-items:center;
+        }
+        @include e('bar-icon'){
+            height:60rpx;
+            width:60rpx;
+            margin-right:20rpx
+        }
+        @include e('arrow-right'){
+            height:50rpx;
+            width:50rpx;
+        }
+    }
 
 </style>
