@@ -6,6 +6,7 @@ import board from './modules/board'
 import list from './modules/list'
 import profile from './modules/profile'
 import chat from './modules/chat'
+import match from './modules/match'
 
 Vue.use(Vuex)
 
@@ -30,6 +31,10 @@ const store = new Vuex.Store({
         chat: {
             namespaced: true,
             ...chat
+        },
+        match: {
+            namespaced: true,
+            ...match
         }
     }
 })

@@ -1,80 +1,80 @@
 <template>
-  <div class="md-profile">
-    <!-- <view class="md-profile__header">
-      <text class="md-profile__title">{{ title }}</text>
-    </view> -->
-    <button open-type="getUserInfo">授权访问</button>
-    <view class="md-profile__user" @click="getUserInfo">
-      <image class="md-profile__user-avatar" :src="userInfo.avatarUrl" mode="aspectFit"/>
-      <text class="md-profile__user-nickname">{{ userInfo.nickName }}</text>
-      <text :hidden="!userInfo.city">{{ userInfo.city }}, {{ userInfo.province }}</text>
-      <text :hidden="!userInfo.city"> Thanks~ </text>
+    <view class="rb-match">
+        <view>
+            <button bindtap="setDisabled">今日为你匹配</button>
+        </view>
+        <view class="rb-match__user-wrap">
+            <view v-for=" user in matchList" class="rb-match__user-block">
+                <block>
+                    <navigator url="../user/user?title=robin">
+                        <image :src="user.imgUrl" mode="aspectFill"
+                               class="rb-match__user-img"/>
+                        <view class="rb-match__user-info">
+                            <text class="rb-match__user-detail">{{user.name}}</text>
+                            <text class="rb-match__user-detail">{{user.birthday}}</text>
+                        </view>
+                        <view class="rb-match__user-info">
+                            <text class="rb-match__user-detail">{{user.city}}</text>
+                            <text class="rb-match__user-detail">真爱值{{user.loveValue}}</text>
+                        </view>
+                    </navigator>
+                </block>
+
+            </view>
+        </view>
     </view>
-  </div>
 </template>
-
 <script>
-import { login, getUserInfo } from '@/utils/wechat'
-export default {
-  data () {
-    return {
-      title: '关于',
-      userInfo: {
-        wechat: 'SG',
-        nickName: 'https://github.com/mini-mpvue/mpvue-douban',
-        avatarUrl: '/static/images/qrcode-sg.png'
-      }
-    }
-  },
+    import {mapState, mapMutations} from 'vuex'
+    import {MATCH_LIST} from "../../store/mutations-type";
 
-  methods: {
-    async getUserInfo () {
-      const data = await getUserInfo()
-      this.userInfo = data.userInfo
+    export default {
+        data() {
+            return {}
+        },
+        computed: {
+            ...mapState('match', {
+                matchList: state => state.matchList,
+            })
+        },
+        methods: {
+            ...mapMutations('match', {
+                getMatchList: MATCH_LIST
+            }),
+        },
+        mounted() {
+            this.getMatchList()
+        }
     }
-  },
-
-  mounted () {
-    login().then(res => {
-      console.log(res)
-    })
-  }
-}
 </script>
 
 <style lang="scss">
-@include c('profile') {
+    @include c('match') {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
 
-  @include e('header') {
-    display: flex;
-    justify-content: center;
-    border-bottom: 1rpx solid #ccc;
-  }
-
-  @include e('title') {
-    padding: 40rpx;
-    color: #999;
-    font-size: 148rpx;
-    text-align: center;
-  }
-
-  @include e('user') {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  @include e('user-avatar') {
-    width: 100%;
-    height: 620rpx;
-    margin: 40rpx;
-  }
-
-  @include e('user-nickname') {
-    color: #aaa;
-    font-size: 30rpx;
-    margin-bottom: 30rpx;
-  }
-}
-
+        @include e('user-wrap') {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        @include e('user-block') {
+            height: 500rpx;
+            width: 300rpx;
+            margin: 10px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        @include e('user-img') {
+            width: 300rpx;
+            height: 400rpx;
+            background-color: #eeeeee;
+        }
+        @include e('user-info') {
+            display: flex;
+        }
+        @include e('user-detail') {
+            flex: 1;
+        }
+    }
 </style>

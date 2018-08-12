@@ -11,3 +11,4 @@ export const PROFILE_BACKGROUND_IMGURL = 'PROFILE_BACKGROUND_IMGURL';//个人信
 export const PROFILE_INFO = "PROFILE_INFO";//我的信息
 
 export const CHAT_LIST = "CHAT_LIST";//聊天列表
+export const MATCH_LIST = "MATCH_LIST";//匹配列表
