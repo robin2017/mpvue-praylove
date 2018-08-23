@@ -10,12 +10,12 @@
                         <image :src="baseUrl+user.image_url" mode="aspectFill"
                                class="rb-match__user-img"/>
                         <view class="rb-match__user-info">
-                            <text class="rb-match__user-detail">{{user.name}}</text>
-                            <text class="rb-match__user-detail">{{fmtDate(user.birthday)}}</text>
+                            <text class="rb-match__user-detail-fixed">{{user.name}}</text>
+                            <text class="rb-match__user-detail">{{user.birthday}}</text>
                         </view>
                         <view class="rb-match__user-info">
-                            <text class="rb-match__user-detail">{{user.city}}</text>
-                            <text class="rb-match__user-detail">真爱值{{user.loveValue}}</text>
+                            <text class="rb-match__user-detail-fixed">{{user.city}}</text>
+                            <text class="rb-match__user-detail">真爱值{{user.truelove_number}}</text>
                         </view>
                     </navigator>
                 </block>
@@ -25,6 +25,9 @@
     </view>
 </template>
 <script>
+    /**
+     * 如果头像突然变大，可能原因是某一行内容超过了宽度
+     * */
     import {mapState, mapMutations} from 'vuex'
     import {MATCH_LIST} from "../../store/mutations-type";
     import {baseURL} from '@/utils/request'
@@ -43,8 +46,7 @@
         watch:{
             matchList:function () {
                 this.matchList.forEach(item=>{
-                    console.log(item.birthday);
-                    console.log(this.fmtDate(item.birthday))
+                    item.birthday = this.fmtDate(item.birthday)
                 })
             }
         },
@@ -85,8 +87,14 @@
         @include e('user-info') {
             display: flex;
         }
+        @include e('user-detail-fixed') {
+           width:100rpx;
+
+        }
         @include e('user-detail') {
             flex: 1;
+            display:flex;
+            justify-content: flex-end;
         }
     }
 </style>
