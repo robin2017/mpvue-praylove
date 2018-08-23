@@ -56,3 +56,7 @@ export function getBoardData ({ board = 'top250', page = 1, count = 20, city = '
 export function getMovieData (id) {
   return request.get(`/subject/${id}`)
 }
+
+export function getAllUser() {
+    return request.get('/api/user/allUsers.json')
+}
